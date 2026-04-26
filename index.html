@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SabarSadarMarket - NDAN GITHUB READY</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #16a085; --gold: #fbbf24; --text: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; overflow-x: hidden; padding-bottom: 120px; }
+        #app { width: 100%; max-width: 420px; margin: auto; min-height: 100vh; position: relative; }
+        .hero { padding: 25px; background: linear-gradient(135deg, #1e3a8a, #1e40af); border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
+        .nav-tabs { display: flex; justify-content: space-around; padding: 15px 0; border-bottom: 1px solid #1e293b; position: relative; }
+        .tab-btn { cursor: pointer; padding: 10px; font-size: 11px; font-weight: 800; color: #64748b; flex: 1; text-align: center; }
+        .tab-btn.active { color: var(--accent); }
+        .indicator { position: absolute; bottom: 0; height: 3px; background: var(--accent); transition: 0.3s; border-radius: 2px; }
+        .card { background: var(--card); border-radius: 25px; padding: 18px; margin: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .label { font-size: 9px; color: #94a3b8; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; display: block; }
+        input { background: #0f172a; border: none; border-radius: 12px; padding: 12px; width: 100%; color: #fff; font-weight: 700; margin-bottom: 10px; outline: none; }
+        .marquee { background: var(--gold); color: #000; padding: 10px 0; margin: 10px 12px; border-radius: 10px; overflow: hidden; white-space: nowrap; }
+        .marquee-text { display: inline-block; padding-left: 100%; animation: scroll 20s linear infinite; font-size: 11px; font-weight: 900; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        #capture { background: #fff; border-radius: 35px; padding: 35px 20px; color: #000; text-align: center; margin: 12px; }
+        .btn-main { width: calc(100% - 24px); margin: 12px; padding: 18px; background: var(--accent); color: #fff; border-radius: 18px; border: none; font-weight: 900; cursor: pointer; }
+        .btn-wa { display: inline-block; background: #25d366; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 900; margin-top: 20px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .section { display: none; }
+        .section.active { display: block !important; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; max-width: 420px; margin: auto; background: #1e293b; display: grid; grid-template-columns: repeat(4, 1fr); padding: 15px 0; border-top: 2px solid #334155; z-index: 999; }
+        .nav-item { text-align: center; font-size: 10px; font-weight: 700; color: #64748b; cursor: pointer; }
+        .nav-item.active { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="hero">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+                <span style="background:rgba(255,255,255,0.2); padding:5px 10px; border-radius:50px; font-size:10px; font-weight:900;">USD/IDR: 17.198</span>
+                <span style="font-size:10px; font-weight:800; opacity:0.6">DEV: NDAN</span>
+            </div>
+            <div style="margin-top:20px">
+                <span style="font-size:11px; opacity:0.7">ESTIMASI EKUITAS</span>
+                <div style="font-size:28px; font-weight:900;" id="top-idr">Rp 0</div>
+                <div id="ai-msg" style="font-size:10px; color:#2ecc71; margin-top:5px; font-weight:bold;">✨ AI: READY TO MOON</div>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="tab-btn active" id="tab-calc" onclick="go('calc')">CALCULATOR</div>
+            <div class="tab-btn" id="tab-screen" onclick="go('screen')">SCREENER</div>
+            <div class="tab-btn" id="tab-mon" onclick="go('mon')">MONITOR</div>
+            <div class="indicator" id="ind"></div>
+        </div>
+
+        <div id="sec-calc" class="section active">
+            <div class="card">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div><span class="label">Pairs</span><input type="text" id="ins" value="XAUUSD"></div>
+                    <div><span class="label">Balance ($)</span><input type="number" id="bal" value="270.82"></div>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+                    <div><span class="label">Lev</span><input type="number" id="lev" value="100"></div>
+                    <div><span class="label">Entry</span><input type="number" id="ent" value="2330.50"></div>
+                    <div><span class="label">Price</span><input type="number" id="curr" value="2335.20"></div>
+                </div>
+            </div>
+            <div class="marquee"><div class="marquee-text">📜 KITAB SABARSADAR: NO SL NO TRADE • RISK MAX 2% • NDAN RULES 📜</div></div>
+            <div id="capture">
+                <div style="font-size:20px; font-weight:900; color:#b8860b;" id="out-ins">XAUUSD</div>
+                <div style="font-size:60px; font-weight:900; letter-spacing:-3px; line-height:1;" id="out-roe">+0.00%</div>
+                <div style="font-size:18px; font-weight:800;" id="out-profit">+$0.00</div>
+                <p style="font-size:9px; margin-top:10px; opacity:0.5">@SabarSadarMarket_Ndan</p>
+            </div>
+            <button class="btn-main" onclick="ss()">📸 SAVE IMAGE</button>
+        </div>
+
+        <div id="sec-screen" class="section">
+            <div class="card"><h2 style="color:#2ecc71">🐂 BULLISH STRONGLY</h2></div>
+        </div>
+
+        <div id="sec-mon" class="section">
+            <div class="card" style="text-align:center;">
+                <span class="label">Rank</span><h2>LEVEL 3 TRAINEE</h2>
+                <p style="margin:15px 0; font-size:12px;">Klik tombol di bawah untuk chat Ndan:</p>
+                <a href="https://wa.me/62816529071?text=Halo%20Ndan%20Savage" target="_blank" rel="noopener noreferrer" class="btn-wa">💬 HUBUNGI VIA WA</a>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div id="b-home" class="nav-item active" onclick="go('calc')">Home</div>
+            <div id="b-porto" class="nav-item" onclick="go('mon')">Porto</div>
+            <div id="b-screen" class="nav-item" onclick="go('screen')">Screener</div>
+            <div id="b-mon" class="nav-item" onclick="go('mon')">Monitor</div>
+        </div>
+    </div>
+
+    <script>
+        function go(t) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('sec-' + t).classList.add('active');
+            document.querySelectorAll('.tab-btn, .nav-item').forEach(el => el.classList.remove('active'));
+            const activeTab = document.getElementById('tab-' + t);
+            if(activeTab) {
+                activeTab.classList.add('active');
+                const ind = document.getElementById('ind');
+                ind.style.width = activeTab.offsetWidth + 'px';
+                ind.style.left = activeTab.offsetLeft + 'px';
+            }
+            if(t === 'calc') document.getElementById('b-home').classList.add('active');
+            else if(t === 'screen') document.getElementById('b-screen').classList.add('active');
+            else document.getElementById('b-mon').classList.add('active');
+        }
+
+        function update() {
+            const b=parseFloat(document.getElementById('bal').value)||0, l=parseFloat(document.getElementById('lev').value)||0, e=parseFloat(document.getElementById('ent').value)||0, c=parseFloat(document.getElementById('curr').value)||0;
+            let r=((c-e)/e)*l*100, p=b*(r/100);
+            document.getElementById('top-idr').innerText = 'Rp ' + (b*17198).toLocaleString('id-ID');
+            document.getElementById('out-ins').innerText = document.getElementById('ins').value.toUpperCase();
+            document.getElementById('out-roe').innerText = (r>=0?'+':'')+r.toFixed(2)+'%';
+            document.getElementById('out-roe').style.color = r>=0?'#16a085':'#e74c3c';
+            document.getElementById('out-profit').innerText = (p>=0?'+$':'-$')+Math.abs(p).toFixed(2);
+            document.getElementById('ai-msg').innerText = r > 10 ? "✨ AI: GILE SAVAGE BANGET, BEB!" : "✨ AI: READY TO MOON";
+        }
+
+        function ss() {
+            html2canvas(document.getElementById('capture'), { backgroundColor: "#ffffff" }).then(canvas => {
+                const a = document.createElement('a'); a.download = 'Ndan_PNL.png'; a.href = canvas.toDataURL(); a.click();
+            });
+        }
+        ['ins','bal','lev','ent','curr'].forEach(id => document.getElementById(id).addEventListener('input', update));
+        window.onload = () => { go('calc'); update(); };
+    </script>
+</body>
+</html>
